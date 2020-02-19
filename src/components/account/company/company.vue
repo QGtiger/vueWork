@@ -15,7 +15,7 @@
                 </mu-form-item>
                 <mu-form-item prop="companyImg">
                     <label for="selectImg" class="labelSelectImg">请上传图片
-                        <input class="hidden" type="file" id="selectImg" accept="image/jpg,image/jpeg,image/png" >
+                        <input class="hidden" type="file" id="selectImg" ref="selectImg" @change="handleChangeImg" accept="image/jpg,image/jpeg,image/png" >
                     </label>
                 </mu-form-item>
                 <mu-form-item prop="companyAddress" :rules="rules.companyAddress">
@@ -41,6 +41,13 @@
                 <mu-form-item prop="job" :rules="rules.job">
                     <mu-text-field placeholder="联系人职务" prop="job" v-model="companyForm.job"></mu-text-field>
                 </mu-form-item>
+                <div class="form-bottom">
+                    <div class="tips-top tips">虹软视觉开发平台将会严格保障您的信息安全</div>
+                    <div class="submit-cont">
+                        <mu-button full-width color="primary">提交审核</mu-button>
+                    </div>
+                    <div class="tips-bottom tips">我们将会在1~3个工作日内反馈结果</div>
+                </div>
             </mu-form>
         </div>
         <mu-bottom-sheet :open.sync="isSelectAddress">
@@ -122,6 +129,11 @@ export default {
         },
         handleGetIndustryList() {
             
+        },
+        handleChangeImg(file){
+            console.log(file)
+            console.log(this.$refs.selectImg.files)
+            this.$refs.selectImg.value = '';
         }
     }
     
@@ -130,7 +142,8 @@ export default {
 
 <style lang="less" scoped>
 .title-cont{
-  margin-left: 15%;
+  margin-left: 20px;
+  margin-top: 30px;
   .title-text{
     font-size: 25px;
     font-weight: 700;
@@ -154,6 +167,14 @@ export default {
         border-bottom: 1px solid rgba(0,0,0,.12);
         font-size: 16px;
         color: rgba(0,0,0,.54);
+    }
+    .form-bottom{
+        margin: 10px 0 20px 0;
+        .tips{
+            text-align: center;
+            color: rgba(0,0,0,.4);
+            margin: 10px 0;
+        }
     }
 }
 </style>
