@@ -14,9 +14,15 @@
                     <mu-text-field placeholder="社会信用代码" v-model="companyForm.companyCode" prop="companyCode"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item prop="companyImg">
-                    <label for="selectImg" class="labelSelectImg">请上传图片
+                    <label v-if="isShowImg" for="selectImg" class="labelSelectImg">请上传图片
                         <input class="hidden" type="file" id="selectImg" ref="selectImg" @change="handleChangeImg" accept="image/jpg,image/jpeg,image/png" >
                     </label>
+                    <div class="show-img" v-if="!isShowImg">
+                        <div class="img-cont">上传成功
+                            <img src="http://qnpic.top/yoona2.jpg" alt="">
+                              <mu-icon style="float: right" value="home"></mu-icon>
+                        </div>
+                    </div>
                 </mu-form-item>
                 <mu-form-item prop="companyAddress" :rules="rules.companyAddress">
                     <mu-text-field placeholder="所在地" v-model="companyForm.companyAddress" prop="companyAddress" @focus="handleSelectAddress"></mu-text-field>
@@ -108,7 +114,8 @@ export default {
                 job: [
                     { validate: val => notNullRule(val), message: '联系人职务不能为空' }
                 ]
-            }
+            },
+            isShowImg: false,
         }
     },
     methods: {
@@ -174,6 +181,25 @@ export default {
             text-align: center;
             color: rgba(0,0,0,.4);
             margin: 10px 0;
+        }
+    }
+    .show-img{
+        font-size: 16px;
+        color: black;
+        border-bottom: 1px solid rgba(0,0,0,.12);
+        height: 32px;
+        width: 100%;
+        .img-cont{
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            img{
+                height: 90%;
+                width: 32px;
+                object-fit: cover;
+                margin-left: 20px;
+            }
         }
     }
 }
