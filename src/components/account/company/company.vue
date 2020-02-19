@@ -6,28 +6,40 @@
             </div>
         </div>
         <div class="form-cont">
-            <mu-form ref="companyForm" :model="companyForm">
-                <mu-form-item prop="companyName">
-                    <mu-text-field placeholder="公司名称" v-model="companyForm.companyName" @focus="handleTest"></mu-text-field>
+            <mu-form ref="companyForm" :model="companyForm" :rules="rules">
+                <mu-form-item prop="companyName" :rules="rules.companyName">
+                    <mu-text-field placeholder="公司名称" v-model="companyForm.companyName" prop="companyName" ></mu-text-field>
                 </mu-form-item>
-                <mu-form-item prop="companyCode">
-                    <mu-text-field placeholder="社会信用代码" v-model="companyForm.companyCode"></mu-text-field>
+                <mu-form-item prop="companyCode" :rules="rules.companyCode">
+                    <mu-text-field placeholder="社会信用代码" v-model="companyForm.companyCode" prop="companyCode"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item prop="companyImg">
                     <label for="selectImg" class="labelSelectImg">请上传图片
                         <input class="hidden" type="file" id="selectImg" accept="image/jpg,image/jpeg,image/png" >
                     </label>
                 </mu-form-item>
-                <mu-form-item prop="companyAddress">
-                    <mu-text-field placeholder="所在地" v-model="companyForm.companyAddress" @focus="handleSelectAddress"></mu-text-field>
+                <mu-form-item prop="companyAddress" :rules="rules.companyAddress">
+                    <mu-text-field placeholder="所在地" v-model="companyForm.companyAddress" prop="companyAddress" @focus="handleSelectAddress"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item prop="website">
                     <mu-text-field placeholder="公司网址(选填)" v-model="companyForm.website"></mu-text-field>
                 </mu-form-item>
-                <mu-form-item prop="industry">
-                    <mu-select placeholder="请选择行业" v-model="companyForm.industry" full-width>
+                <mu-form-item prop="industry" :rules="rules.industry">
+                    <mu-select placeholder="请选择行业" v-model="companyForm.industry" full-width prop="industry">
                         <mu-option v-for="(item, index) in industryList" :key="index" :label="item.dataKey" :value="item.dateValue"></mu-option>
                     </mu-select>
+                </mu-form-item>
+                <mu-form-item prop="applicationScene" :rules="rules.applicationScene">
+                    <mu-text-field placeholder="请填写应用场景" prop="applicationScene" v-model="companyForm.applicationScene"></mu-text-field>
+                </mu-form-item>
+                <mu-form-item prop="productName" :rules="rules.productName">
+                    <mu-text-field placeholder="请填写应用名称" prop="productName" v-model="companyForm.productName"></mu-text-field>
+                </mu-form-item>
+                <mu-form-item prop="contacts" :rules="rules.contacts">
+                    <mu-text-field placeholder="联系人名称" prop="contacts" v-model="companyForm.contacts"></mu-text-field>
+                </mu-form-item>
+                <mu-form-item prop="job" :rules="rules.job">
+                    <mu-text-field placeholder="联系人职务" prop="job" v-model="companyForm.job"></mu-text-field>
                 </mu-form-item>
             </mu-form>
         </div>
@@ -45,6 +57,10 @@ export default {
         SlidAddress
     },
     data() {
+        const notNullRule = (value,) => {
+            let checkValue = value.replace(/(^\s*) | (\s*$)/g, '');
+            return checkValue.length > 0;
+        }
         return {
             companyForm: {
                 companyName: '',
@@ -52,10 +68,40 @@ export default {
                 companyImg: '',
                 companyAddress: '',
                 website: '',
-                industry: ''
+                industry: '',
+                applicationScene: '',
+                productName: '',
+                contacts: '',
+                job: ''
             },
             isSelectAddress: false,
             industryList: [],
+            rules: {
+                companyName: [
+                    { validate: val => notNullRule(val), message: '公司名称不能为空' }
+                ],
+                companyCode: [
+                    { validate: val => notNullRule(val), message: '社会信用代码不能为空' }
+                ],
+                companyAddress: [
+                    { validate: val => notNullRule(val), message: '所在地不能为空' }
+                ],
+                industry: [
+                    { validate: val => notNullRule(val), message: '行业不能为空' }
+                ],
+                applicationScene: [
+                    { validate: val => notNullRule(val), message: '应用场景不能为空' }
+                ],
+                productName: [
+                    { validate: val => notNullRule(val), message: '应用名称不能为空' }
+                ],
+                contacts: [
+                    { validate: val => notNullRule(val), message: '联系人姓名不能为空' }
+                ],
+                job: [
+                    { validate: val => notNullRule(val), message: '联系人职务不能为空' }
+                ]
+            }
         }
     },
     methods: {
@@ -71,7 +117,8 @@ export default {
         handleConfirmAddress(data) {
             // console.log(data)
             this.handleCloseSlide();
-            this.companyForm.companyAddress = data.join('/')
+            this.companyForm.companyAddress = data.join('/');
+            this.$refs.companyForm.validate('companyAddress')
         },
         handleGetIndustryList() {
             
