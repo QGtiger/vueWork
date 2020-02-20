@@ -25,7 +25,7 @@
                     </div>
                 </mu-form-item>
                 <mu-form-item prop="companyAddress" :rules="rules.companyAddress">
-                    <mu-text-field placeholder="所在地" v-model="companyForm.companyAddress" prop="companyAddress" @focus="handleSelectAddress"></mu-text-field>
+                    <mu-text-field ref="companyAddress" placeholder="所在地" v-model="companyForm.companyAddress" prop="companyAddress" @focus="handleSelectAddress"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item prop="website">
                     <mu-text-field placeholder="公司网址(选填)" v-model="companyForm.website"></mu-text-field>
@@ -55,6 +55,10 @@
                     <div class="tips-bottom tips">我们将会在1~3个工作日内反馈结果</div>
                 </div>
             </mu-form>
+        </div>
+        <div class="register-company-bottom">
+            <mu-button color="primary" flat>个人认证</mu-button>
+            <mu-button color="primary" flat>开发者中心</mu-button>
         </div>
         <mu-bottom-sheet :open.sync="isSelectAddress">
             <SlidAddress @confirm-address="handleConfirmAddress"></SlidAddress>
@@ -118,6 +122,8 @@ export default {
             isShowImg: false,
         }
     },
+    mounted() {
+    },
     methods: {
         handleTest() {
             console.log(123)
@@ -132,7 +138,8 @@ export default {
             // console.log(data)
             this.handleCloseSlide();
             this.companyForm.companyAddress = data.join('/');
-            this.$refs.companyForm.validate('companyAddress')
+            // this.$refs.companyForm.validate('companyAddress')
+            //this.rules.companyAddress[0].validate(this.companyForm.companyAddress);
         },
         handleGetIndustryList() {
             
@@ -202,5 +209,9 @@ export default {
             }
         }
     }
+}
+.register-company-bottom{
+    width: 80%;
+    margin: 10px auto;
 }
 </style>

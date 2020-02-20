@@ -3,7 +3,7 @@
     <p class="selected-city">
         您选择的城市是： {{addressProvince}} {{addressCity}}
     </p>
-  <mu-slide-picker :slots="addressSlots" :visible-item-count="7" @change="addressChange" :values="address"></mu-slide-picker>
+  <mu-slide-picker :lock-scroll="true" :slots="addressSlots" :visible-item-count="7" @change="addressChange" :values="address"></mu-slide-picker>
     <div class="container-bottom">
         <mu-button full-width color="success" @click="handleConfirmAddress">确认</mu-button>
     </div>
